@@ -1,0 +1,35 @@
+#calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 17rem;
+    background-color: aliceblue;
+    padding-bottom: 1rem;
+    border: 1px solid darkblue;
+    border-radius: 2%;
+}
+
+#keyPad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+#displayValue {
+    text-align: end;
+    font-family: 'Courier New', Courier, monospace;
+    width: 15rem;
+    height: 2rem;
+}
+
+button {
+    width: 3.7rem;
+    height: 2.5rem;
+    margin: 2px;
+    box-shadow: 1px 1px darkblue;
+}
+
+p {
+    margin: 1rem;
+}
