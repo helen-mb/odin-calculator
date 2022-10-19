@@ -26,31 +26,39 @@ function divide(a, b) {
     return a / b;
 }
 
-//NOTE: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
 let runningTotal = null; 
+let storedValue = null;
+let opName = null;
+let displayRefresh = false;
+
+//A function that concatenates the selected number values into the display screen
+function updateDisplay(e) {
+    if (displayRefresh) {
+        display.value = null;
+        displayRefresh = false;
+    }
+    display.value += e.target.value;
+}
+//Prepping the operate function with the click of an operator button
+const hold = (e) => {
+    storedValue = display.value;
+    opName = e.target.value;
+    displayRefresh = true;
+}
+//NOTE: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
 function operate(opName, a, b) {
     if (opName === 'add') {runningTotal = add(+a, +b)}
     else if (opName === 'subtract') {runningTotal = subtract(a, b)}
     else if (opName === 'multiply') {runningTotal = multiply(a, b)}
     else if (opName === 'divide') {runningTotal = divide(a, b)}
-    display.value = null;
+    display.value = runningTotal;
+    storedValue = null;
+    displayRefresh = true;
     console.log(runningTotal);
     return runningTotal;
 }
 
-//Printing the numbers to the display on click
-numKeys.forEach((numBtn) => numBtn.addEventListener('click', e => display.value += e.target.value));
-
-//TODO: refresh the display value only after operator is clicked
-//Prepping the operate function with the click of an operator button
-let storedValue = null;
-let opName = null;
-const hold = (e) => {
-    storedValue = display.value;
-    opName = e.target.value;
-    display.value = null; // presently clears the display screen entirely
-}
+//Adding event listeners onto the buttons to run the relevant functions
+numKeys.forEach((numBtn) => numBtn.addEventListener('click', updateDisplay));
 opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
-
-//Running the operate function with the click of the equals button
 equalsBtn.addEventListener('click', () => operate(opName, storedValue, display.value));
