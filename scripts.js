@@ -9,7 +9,6 @@ const equalsBtn = document.getElementById('equalsBtn');
 const clearBtn = document.getElementById('clearBtn');
 
 //The basic math operations between two numbers:
-
 function add(a, b) {
     return a + b;
 }
@@ -26,6 +25,7 @@ function divide(a, b) {
     return a / b;
 }
 
+//The variables used within the button functions
 let runningTotal = null; 
 let storedValue = null;
 let opName = null;
@@ -41,9 +41,12 @@ function updateDisplay(e) {
 }
 //Prepping the operate function with the click of an operator button
 const hold = (e) => {
-    storedValue = display.value;
-    opName = e.target.value;
+    if(storedValue){
+        operate(opName, storedValue, display.value);
+    }
     displayRefresh = true;
+    opName = e.target.value;
+    storedValue = display.value;
 }
 //NOTE: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
 function operate(opName, a, b) {
