@@ -32,6 +32,7 @@ let opName = null;
 let displayRefresh = false;
 let clearAll = false;
 
+
 //A function that concatenates the selected number values into the display screen
 function updateDisplay(e) {
     if (displayRefresh) {
@@ -47,7 +48,7 @@ function hold (e) {
     if(runningTotal === null) {
         runningTotal = display.value;
     } else if(activeValue){
-        operate(opName, runningTotal, display.value);
+        operate(e, opName, runningTotal, display.value);
     }
     displayRefresh = true;
     opName = e.target.value;
@@ -62,20 +63,24 @@ function clear () {
     display.value = null;
     clearAll = true;
 }
-//FIXME: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
-function operate(opName, a, b) {
-    if (opName === 'add') {runningTotal = add(+a, +b)}
-    else if (opName === 'subtract') {runningTotal = subtract(a, b)}
-    else if (opName === 'multiply') {runningTotal = multiply(a, b)}
-    else if (opName === 'divide') {runningTotal = divide(a, b)}
+//opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
+function operate(e, operator, a, b) {
+    if (operator === 'add') {runningTotal = add(+a, +b)}
+    else if (operator === 'subtract') {runningTotal = subtract(a, b)}
+    else if (operator === 'multiply') {runningTotal = multiply(a, b)}
+    else if (operator === 'divide') {runningTotal = divide(a, b)}
     display.value = runningTotal;
     activeValue = false;
     displayRefresh = true;
+    if(e.target.value === 'equals') {
+        opBtn = null;
+        runningTotal = null;
+    }
     return runningTotal;
 }
 
 //Adding event listeners onto the buttons to run the relevant functions
 numKeys.forEach((numBtn) => numBtn.addEventListener('click', updateDisplay));
 opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
-equalsBtn.addEventListener('click', () => operate(opName, runningTotal, display.value));
+equalsBtn.addEventListener('click', (e) => operate(e, opName, runningTotal, display.value));
 clearBtn.addEventListener('click', clear);
