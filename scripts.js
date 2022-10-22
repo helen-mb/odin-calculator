@@ -27,7 +27,7 @@ function divide(a, b) {
 
 //The variables used within the button functions
 let runningTotal = null; 
-let storedValue = null;
+let activeValue = null;
 let opName = null;
 let displayRefresh = false;
 let clearAll = false;
@@ -38,32 +38,29 @@ function updateDisplay(e) {
         display.value = null;
         displayRefresh = false;
     }
+    runningTotal ? activeValue = true : activeValue = false;
     clearAll = false;
     display.value += e.target.value;
 }
-//FIXME: Clicking a different operator button (in case of mis-click) should not yet run the operate function
 //Prepping the operate function with the click of an operator button
 function hold (e) {
     if(runningTotal === null) {
         runningTotal = display.value;
-    } else if(storedValue){
-        operate(opName, storedValue, display.value);
+    } else if(activeValue){
+        operate(opName, runningTotal, display.value);
     }
     displayRefresh = true;
     opName = e.target.value;
-    storedValue = display.value;
-    console.log(storedValue, display.value, runningTotal)
 }
 //A function to clear the display, and (optionally) the stored values
 function clear () {
     if(clearAll) {
-        storedValue = null;
+        activeValue = false;
         runningTotal = null;
         clearAll = false;
     }
     display.value = null;
     clearAll = true;
-    console.log(storedValue, display.value, runningTotal);
 }
 //FIXME: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
 function operate(opName, a, b) {
@@ -72,14 +69,13 @@ function operate(opName, a, b) {
     else if (opName === 'multiply') {runningTotal = multiply(a, b)}
     else if (opName === 'divide') {runningTotal = divide(a, b)}
     display.value = runningTotal;
-    storedValue = null;
+    activeValue = false;
     displayRefresh = true;
-    console.log(storedValue, display.value, runningTotal);
     return runningTotal;
 }
 
 //Adding event listeners onto the buttons to run the relevant functions
 numKeys.forEach((numBtn) => numBtn.addEventListener('click', updateDisplay));
 opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
-equalsBtn.addEventListener('click', () => operate(opName, storedValue, display.value));
+equalsBtn.addEventListener('click', () => operate(opName, runningTotal, display.value));
 clearBtn.addEventListener('click', clear);
