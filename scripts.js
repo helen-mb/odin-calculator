@@ -30,6 +30,7 @@ let runningTotal = null;
 let storedValue = null;
 let opName = null;
 let displayRefresh = false;
+let clearAll = false;
 
 //A function that concatenates the selected number values into the display screen
 function updateDisplay(e) {
@@ -37,18 +38,34 @@ function updateDisplay(e) {
         display.value = null;
         displayRefresh = false;
     }
+    clearAll = false;
     display.value += e.target.value;
 }
+//FIXME: Clicking a different operator button (in case of mis-click) should not yet run the operate function
 //Prepping the operate function with the click of an operator button
-const hold = (e) => {
-    if(storedValue){
+function hold (e) {
+    if(runningTotal === null) {
+        runningTotal = display.value;
+    } else if(storedValue){
         operate(opName, storedValue, display.value);
     }
     displayRefresh = true;
     opName = e.target.value;
     storedValue = display.value;
+    console.log(storedValue, display.value, runningTotal)
 }
-//NOTE: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
+//A function to clear the display, and (optionally) the stored values
+function clear () {
+    if(clearAll) {
+        storedValue = null;
+        runningTotal = null;
+        clearAll = false;
+    }
+    display.value = null;
+    clearAll = true;
+    console.log(storedValue, display.value, runningTotal);
+}
+//FIXME: opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
 function operate(opName, a, b) {
     if (opName === 'add') {runningTotal = add(+a, +b)}
     else if (opName === 'subtract') {runningTotal = subtract(a, b)}
@@ -57,7 +74,7 @@ function operate(opName, a, b) {
     display.value = runningTotal;
     storedValue = null;
     displayRefresh = true;
-    console.log(runningTotal);
+    console.log(storedValue, display.value, runningTotal);
     return runningTotal;
 }
 
@@ -65,3 +82,4 @@ function operate(opName, a, b) {
 numKeys.forEach((numBtn) => numBtn.addEventListener('click', updateDisplay));
 opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
 equalsBtn.addEventListener('click', () => operate(opName, storedValue, display.value));
+clearBtn.addEventListener('click', clear);
