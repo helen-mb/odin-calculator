@@ -63,7 +63,7 @@ function clear () {
     display.value = null;
     clearAll = true;
 }
-//TODO: replace "operator" with e.target.value
+
 //opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
 //A function to complete the equation based on selected operator, display value, and running total. Accessed by equals and opBtns
 function operate(e, operator, a, b) {
