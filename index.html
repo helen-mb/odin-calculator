@@ -13,13 +13,17 @@
         <h1>This is a Calculator</h1>
         <div id="calculator">
             <div id="dispContainer">
-                <input type="number" id="display" disabled="true">
+                <input type="text" id="display" disabled="true">
             </div>
             <div id="panel">
                 <div id="solar"></div>
                 <P>C4LCUL80R</P>
             </div>
             <div id="keyPad">
+                <button id="clearBtn" class="red" value="clear">C</button>
+                <button id="deleteBtn" class="red" value="clear">del</button>
+                <button id="invertBtn" class="red" value="-1">+/-</button>
+                <button id="percentBtn" class="red" value="%">%</button>
                 <button id="7" class="num" value="7">7</button>
                 <button id="8" class="num" value="8">8</button>
                 <button id="9" class="num" value="9">9</button>
@@ -32,9 +36,9 @@
                 <button id="2" class="num" value="2">2</button>
                 <button id="3" class="num" value="3">3</button>
                 <button id="subtractBtn" class="red operator" value="subtract">-</button>
-                <button id="0" class="num" value="0">0</button>
                 <button id="equalsBtn" class="red" value="equals">=</button>
-                <button id="clearBtn" class="red" value="clear">C</button>
+                <button id="0" class="num" value="0">0</button>
+                <button id="decimalBtn" value=".">.</button>
                 <button id="addBtn" class="red operator" value="add">+</button>
             </div>
         </div>

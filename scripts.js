@@ -7,6 +7,8 @@ const multiplyBtn = document.getElementById('multiplyBtn');
 const divideBtn = document.getElementById('divideBtn');
 const equalsBtn = document.getElementById('equalsBtn');
 const clearBtn = document.getElementById('clearBtn');
+const decimalBtn = document.getElementById('decimalBtn');
+const invertBtn = document.getElementById('invertBtn');
 
 //The basic math operations between two numbers:
 function add(a, b) {
@@ -22,7 +24,12 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    if(b == 0) {
+        console.log('nope');
+        return 'NOPE'
+    } else {
+        return a / b;
+    }
 }
 
 //The variables used within the button functions
@@ -50,6 +57,7 @@ function hold (e) {
     } else if(activeValue){
         operate(e, opName, runningTotal, display.value);
     }
+    decimalBtn.addEventListener('click', updateDisplay, {once: true});
     displayRefresh = true;
     opName = e.target.value;
 }
@@ -75,6 +83,7 @@ function operate(e, operator, a, b) {
     activeValue = false;
     displayRefresh = true;
     if(e.target.value === 'equals') {
+        decimalBtn.addEventListener('click', updateDisplay, {once: true});
         opBtn = null;
         runningTotal = null;
     }
@@ -86,9 +95,11 @@ numKeys.forEach((numBtn) => numBtn.addEventListener('click', updateDisplay));
 opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
 equalsBtn.addEventListener('click', (e) => operate(e, opName, runningTotal, display.value));
 clearBtn.addEventListener('click', clear);
+decimalBtn.addEventListener('click', updateDisplay, {once: true})
+invertBtn.addEventListener('click', (e) => display.value *= e.target.value);
 
-//TODO: Round answers with long decimals
-//TODO: Address divide by zero error
 //TODO: Create a separate backspace button (different from the clear button)
-//TODO: Add a decimal button (only allow a single decimal)
 //TODO: Add keyboard support
+//TODO: Add a memory button?
+//TODO: Add a percentage button?
+//TODO: Add square-root and exponent buttons?

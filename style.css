@@ -78,24 +78,24 @@ button {
 }
 
 button.num:hover {
-    padding: 1.5px 0 0 6.5px;
+    padding: 0.5px 0 0 6.5px;
     border-style: inset;
     background-image: radial-gradient(#ffffff  0.25px, rgb(246, 250, 255) 2px);
 }
 
 button.num:active {
-    padding: 1.5px 0 0 6.5px;
+    padding: 1.5px 0 0 7px;
     border-style: ridge;
     background-image: radial-gradient(#f3f2f2  0.25px, rgb(229, 233, 238) 2px);
 }
 
 button.red:hover {
-    padding: 1.5px 0 0 6.5px;
+    padding: 0.5px 0 0 6.5px;
     border-style: inset;
     background-image: radial-gradient(rgb(234, 14, 14)  0.25px, rgb(224, 0, 0) 2px);
 }
 button.red:active {
-    padding: 1.5px 0 0 6.5px;
+    padding: 1.5px 0 0 7px;
     border-style: ridge;
     background-image: radial-gradient(rgb(221, 12, 12)  0.25px, rgb(205, 1, 1) 2px);
 }
