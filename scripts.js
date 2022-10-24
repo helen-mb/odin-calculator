@@ -11,6 +11,18 @@ const decimalBtn = document.getElementById('decimalBtn');
 const invertBtn = document.getElementById('invertBtn');
 const deleteBtn = document.getElementById('deleteBtn');
 const percentBtn = document.getElementById('percentBtn');
+const memRecall = document.getElementById('memRecall');
+const memClear = document.getElementById('memClear');
+const memAdd = document.getElementById('memAdd');
+const memSub = document.getElementById('memSub');
+
+//The variables used within the button functions
+let runningTotal = null; 
+let memoryValue = 0;
+let activeValue = null;
+let opName = null;
+let displayRefresh = false;
+let clearAll = false;
 
 //The basic math operations between two numbers:
 function add(a, b) {
@@ -27,19 +39,27 @@ function multiply(a, b) {
 
 function divide(a, b) {
     if(b == 0) {
-        console.log('nope');
         return 'NOPE'
     } else {
         return a / b;
     }
 }
 
-//The variables used within the button functions
-let runningTotal = null; 
-let activeValue = null;
-let opName = null;
-let displayRefresh = false;
-let clearAll = false;
+//Functions for the memory buttons
+function addToMemory () {
+    memoryValue += +display.value;
+    displayRefresh = true;
+}
+
+function subtractFromMemory () {
+    memoryValue -= +display.value;
+    displayRefresh = true;
+}
+
+function clearMemory () {
+    memoryValue = 0
+    displayRefresh = true;
+}
 
 //A function that concatenates the selected number values into the display screen
 function updateDisplay(e) {
@@ -97,10 +117,12 @@ opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
 equalsBtn.addEventListener('click', (e) => operate(e, opName, runningTotal, display.value));
 clearBtn.addEventListener('click', clear);
 decimalBtn.addEventListener('click', updateDisplay, {once: true})
-invertBtn.addEventListener('click', (e) => display.value *= e.target.value);
+invertBtn.addEventListener('click', () => display.value *= -1);
 deleteBtn.addEventListener('click', () => display.value = display.value.slice(0, -1));
-percentBtn.addEventListener('click', (e) => display.value /= 100);
+percentBtn.addEventListener('click', () => display.value /= 100);
+memAdd.addEventListener('click', addToMemory);
+memSub.addEventListener('click', subtractFromMemory);
+memRecall.addEventListener('click', () => display.value = memoryValue);
+memClear.addEventListener('click', clearMemory);
 
 //TODO: Add keyboard support
-//TODO: Add a memory button?
-//TODO: Add square-root and exponent buttons?
