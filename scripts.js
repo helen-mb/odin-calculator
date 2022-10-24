@@ -9,6 +9,8 @@ const equalsBtn = document.getElementById('equalsBtn');
 const clearBtn = document.getElementById('clearBtn');
 const decimalBtn = document.getElementById('decimalBtn');
 const invertBtn = document.getElementById('invertBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+const percentBtn = document.getElementById('percentBtn');
 
 //The basic math operations between two numbers:
 function add(a, b) {
@@ -38,7 +40,6 @@ let activeValue = null;
 let opName = null;
 let displayRefresh = false;
 let clearAll = false;
-
 
 //A function that concatenates the selected number values into the display screen
 function updateDisplay(e) {
@@ -97,9 +98,9 @@ equalsBtn.addEventListener('click', (e) => operate(e, opName, runningTotal, disp
 clearBtn.addEventListener('click', clear);
 decimalBtn.addEventListener('click', updateDisplay, {once: true})
 invertBtn.addEventListener('click', (e) => display.value *= e.target.value);
+deleteBtn.addEventListener('click', () => display.value = display.value.slice(0, -1));
+percentBtn.addEventListener('click', (e) => display.value /= 100);
 
-//TODO: Create a separate backspace button (different from the clear button)
 //TODO: Add keyboard support
 //TODO: Add a memory button?
-//TODO: Add a percentage button?
 //TODO: Add square-root and exponent buttons?
