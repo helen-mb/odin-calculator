@@ -16,15 +16,14 @@ const memClear = document.getElementById('memClear');
 const memAdd = document.getElementById('memAdd');
 const memSub = document.getElementById('memSub');
 
-//The variables used within the button functions
-let runningTotal = null; 
-let memoryValue = 0;
-let activeValue = null;
-let opName = null;
-let displayRefresh = false;
-let clearAll = false;
+let runningTotal = null; //Keeps track of the total result
+let memoryValue = 0; //Keeps track of the value stored in memory
+let opName = null; //Stores the name of the pending operation until the operation is performed
+let activeValue = false; //When true, allows operator buttons to perform the pending operation
+let displayRefresh = false; //When true, allows the next number button to clear the screen before concatenating
+let readyToClear = false; //When true, allows the clear button to clear all stored values
 
-//The basic math operations between two numbers:
+//The basic math operations that can be performed between two numbers:
 function add(a, b) {
     return a + b;
 }
@@ -45,7 +44,7 @@ function divide(a, b) {
     }
 }
 
-//Functions for the memory buttons
+//Functions for the memory buttons:
 function addToMemory () {
     memoryValue += +display.value;
     displayRefresh = true;
@@ -61,17 +60,19 @@ function clearMemory () {
     displayRefresh = true;
 }
 
-//A function that concatenates the selected number values into the display screen
+//Concatenates the number button values in the display screen, and toggles displayRefresh as needed
 function updateDisplay(e) {
     if (displayRefresh) {
         display.value = null;
         displayRefresh = false;
     }
     runningTotal ? activeValue = true : activeValue = false;
-    clearAll = false;
+    readyToClear = false;
     display.value += e.target.value;
 }
-//Prepping the operate function with the click of an operator button
+
+//Accessed by the opBtn's:
+//Prepares the operate function and runs the pending operation as needed. Resets the decimal button.
 function hold (e) {
     if(runningTotal === null) {
         runningTotal = display.value;
@@ -82,19 +83,23 @@ function hold (e) {
     displayRefresh = true;
     opName = e.target.value;
 }
-//A function to clear the display, and (optionally) the stored values
+
+//Accessed by C/CA button:
+//Clears the display, and (when readyToClear is true) resets all stored values;
 function clear () {
-    if(clearAll) {
-        activeValue = false;
+    if(readyToClear) {
         runningTotal = null;
-        clearAll = false;
+        memoryValue = 0;
+        opName = null;
+        activeValue = false;
+        readyToClear = false;
     }
     display.value = null;
-    clearAll = true;
+    readyToClear = true;
 }
 
-//opName is not recognized as a function type, only a string, hence why using it as a keyword for a callback function did not work?
-//A function to complete the equation based on selected operator, display value, and running total. Accessed by equals and opBtns
+//Accessed by equals and opBtns:
+//Performs the pending operation given the opName, runningTotal and display.value. Resets the decimal button.
 function operate(e, operator, a, b) {
     if (operator === 'add') {runningTotal = add(+a, +b)}
     else if (operator === 'subtract') {runningTotal = subtract(a, b)}
@@ -111,7 +116,7 @@ function operate(e, operator, a, b) {
     return runningTotal;
 }
 
-//Adding event listeners onto the buttons to run the relevant functions
+//Event listeners for the buttons to run the relevant functions
 numKeys.forEach((numBtn) => numBtn.addEventListener('click', updateDisplay));
 opKeys.forEach((opBtn) => opBtn.addEventListener('click', hold));
 equalsBtn.addEventListener('click', (e) => operate(e, opName, runningTotal, display.value));
